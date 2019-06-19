@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Running</title>
+</head>
+<style>
+	.inputs{
+		border:1px solid black;
+		padding:10px;
+	}
+	.individualInputs{
+	}
+	th{
+	 	border: 1px solid #dddddd;
+	  	text-align: left;
+	}
+	td{
+	 	border: 1px solid #dddddd;
+	  	text-align: left;		
+	}
+</style>
+<body onload='loadTable()'>
+	<section class="inputs">
+    	<label for='time'>Time:</label>
+    	<input type='time' id='time' step='1' placeholder='(h:m:s)' class="individualInputs">
+
+    	<label for='distance'>Distance:</label>
+		<input type='number' id='distance'placeholder='(km)' class="individualInputs">
+
+    	<label for='where'>Place:</label>
+		<input type='text' id='where' placeholder='(location)' class="individualInputs">
+    		
+    	<button id="add" onclick="startAdd()" class="individualInputs">Add Run</button>
+  	</section>
+
+	<br>
+	<table id='table'>
+	  <tr>
+	    <th width='100'>Run Number</th>
+	    <th width='100'>Time (h:m:s)</th>
+	    <th width='100'>Distance (km)</th>
+	    <th width='100'>Place</th>
+	  </tr>	  
+	</table>	
+	<table id='myTable'> 
+	</table>
+
+	<script>
+		var num = 0
+		var save = []
+
+
+		//FUNCTION THAT ADDS YOUR INPUTED DATA INTO THE TABLE
+		function startAdd(){
+			var time = document.getElementById('time').value
+			var distance = document.getElementById('distance').value
+			var place = document.getElementById('where').value
+			num++
+			myRun(num, time, distance, place)
+			}
+		function myRun(num, time, distance, place){
+			var save = []
+		  	var table = document.getElementById('myTable')
+		  	var row = table.insertRow(0)
+		  	var cell1 = row.insertCell(0)
+		  	var cell2 = row.insertCell(1)
+		  	var cell3 = row.insertCell(2)
+		  	var cell4 = row.insertCell(3)
+		  	cell1.innerHTML = num  	
+		  	cell2.innerHTML = time
+		  	cell3.innerHTML = distance
+		  	cell4.innerHTML = place		  	
+		  	cell1.width = 100
+		  	cell2.width = 100
+		  	cell3.width = 100
+		  	cell4.width = 100
+		  	var cells = document.querySelectorAll('td')
+			cells.forEach(function(cell){
+				var myCell =  cell.innerHTML
+				save.push(myCell)
+			})
+			localStorage.setItem('returnMe',save)
+		}
+
+		//PUTTING SAVED DATA INTO A TABLE
+		function loadTable(){
+			var data = localStorage.getItem('returnMe')
+			console.log(data)
+			for (i in data){
+				console.log(i.val())
+			}
+		}
+
+		
+		//REMOVING '+', '-' AND 'e' FROM THE NUMBER INPUT BOX
+		var inputBox = document.getElementById('distance')
+		var invalidChars = ['+','-','e']
+		inputBox.addEventListener('keydown',function(e){
+		  if (invalidChars.includes(e.key)){
+		    e.preventDefault()
+		  }
+		})
+
+	</script>
+</body>
+</html>
+<!--
+		//localStorage.setItem('returnMe',save)
+		localStorage.getItem('returnMe')
+
+		var parsePerson = JSON.parse(getPerson) 
+			window.onbeforeunload = function(){
+		}
+			function start(){
+			//alert('hello')
+		}
+		onload='start()'
+				  	const cells = document.querySelectorAll('td');
+			cells.forEach(function(cell){
+				var myCell =  JSON.stringify(cell)
+				save.push(myCell)
+  				localStorage.setItem('returnMe',save)
+			})
+		}-->
